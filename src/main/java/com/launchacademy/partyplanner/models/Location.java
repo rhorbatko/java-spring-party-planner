@@ -2,14 +2,7 @@ package com.launchacademy.partyplanner.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Set;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,7 +25,7 @@ public class Location {
   @NotBlank(message = "name can't be blank")
   private String name;
 
-  @OneToMany(mappedBy="location")
+  @OneToMany(mappedBy="location", fetch = FetchType.EAGER)
   @JsonIgnoreProperties("location")
   private Set<Party> parties;
 }

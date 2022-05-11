@@ -1,5 +1,6 @@
 package com.launchacademy.partyplanner.controllers;
 
+import com.launchacademy.partyplanner.exceptionHandling.LocationNotCreatedException;
 import com.launchacademy.partyplanner.exceptionHandling.LocationNotFoundException;
 import com.launchacademy.partyplanner.models.Location;
 import com.launchacademy.partyplanner.services.LocationService;
@@ -9,10 +10,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/locations")
@@ -39,6 +37,19 @@ private LocationService locationService;
   }else{
     throw new LocationNotFoundException();
   }
-  return new ResponseEntity<Map<String, Location>>(locationDataMap, HttpStatus.OK);
+  return new ResponseEntity<>(locationDataMap, HttpStatus.OK);
+  }
+
+  @PostMapping
+  public ResponseEntity<Map<String, Location>> create(@RequestBody Location location) {
+    try {
+      locationService.save(location);
+      Map<String, Location> dataMap = new HashMap<>();
+      dataMap.put("location", location);
+      return new ResponseEntity<>(dataMap, HttpStatus.CREATED);
+    } catch (IllegalArgumentException ex) {
+      System.out.println("Could not create location");
+      throw new LocationNotCreatedException();
+    }
   }
 }
