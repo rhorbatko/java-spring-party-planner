@@ -1,0 +1,14 @@
+# List of files and directories to ignore during et submit
+
+# Note: node_modules is automatically ignored by et and
+
+# does not need to be listed here
+
+# Example:
+
+# somedir/
+
+/java-spring-party-planner.md
+.DS_store
+src/main/frontend/node_modules
+target

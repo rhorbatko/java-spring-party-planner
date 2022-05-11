@@ -1,0 +1,7 @@
+
+CREATE TABLE IF NOT EXISTS parties(
+id BIGSERIAL PRIMARY KEY,
+name VARCHAR NOT NULL,
+description TEXT NOT NULL,
+location_id BIGSERIAL REFERENCES locations(id)
+)
